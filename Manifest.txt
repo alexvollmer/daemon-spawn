@@ -1,0 +1,8 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/daemon-spawn
+lib/daemon-spawn.rb
+test/test_daemon-spawn.rb
+examples/echo_server.rb

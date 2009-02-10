@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'daemon-spawn'
-require 'socket'
+require "socket"
+require "rubygems"
+gem "daemon-spawn", "=0.1.1"
+require "daemon-spawn"
 
 class EchoServer < DaemonSpawn::Base
 

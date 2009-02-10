@@ -3,7 +3,7 @@ require "fileutils"
 # Large portions of this were liberally stolen from the
 # 'simple-daemon' project at http://simple-daemon.rubyforge.org/
 module DaemonSpawn
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   def self.usage(msg=nil) #:nodoc:
     print "#{msg}, " if msg
@@ -50,6 +50,10 @@ module DaemonSpawn
     if pid = daemon.pid
       FileUtils.rm(daemon.pid_file)
       Process.kill("TERM", pid)
+      begin
+        Process.wait(pid)
+      rescue Errno::ECHILD
+      end
     else
       puts "Pid file not found. Is the daemon started?"
       exit

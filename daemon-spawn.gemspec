@@ -1,6 +1,3 @@
-(in /Users/alex/Development/daemon-spawn)
-# -*- encoding: utf-8 -*-
-
 Gem::Specification.new do |s|
   s.name = %q{daemon-spawn}
   s.version = "0.1.0"

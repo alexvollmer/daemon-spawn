@@ -1,3 +1,8 @@
+=== 0.2.0 / 2009-04-22
+
+* Allow specification of args instead of ARGV so that scripts can
+  handle command line parsing and validation prior to spawning.
+
 === 0.1.0 / 2009-01-26
 
 * 1 major enhancement

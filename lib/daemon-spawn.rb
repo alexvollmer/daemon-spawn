@@ -3,7 +3,7 @@ require "fileutils"
 # Large portions of this were liberally stolen from the
 # 'simple-daemon' project at http://simple-daemon.rubyforge.org/
 module DaemonSpawn
-  VERSION = '0.1.0'
+  VERSION = '0.2.0'
 
   def self.usage(msg=nil) #:nodoc:
     print "#{msg}, " if msg
@@ -120,11 +120,14 @@ module DaemonSpawn
     # - <tt>:sync_log</tt> -- indicate whether or not to sync log IO
     # - <tt>:singleton</tt> -- If set to true, only one instance is
     # allowed to start
-    def self.spawn!(opts={ })
-      case ARGV.size > 0 && ARGV.shift
+    # args must begin with 'start', 'stop', 'status', or 'restart'.
+    # The first token will be removed and any remaining arguments
+    # passed to the daemon's start method.
+    def self.spawn!(opts={ }, args=ARGV)
+      case args.size > 0 && args.shift
       when 'start'
         daemon = self.new(opts)
-        DaemonSpawn.start(daemon, ARGV)
+        DaemonSpawn.start(daemon, args)
       when 'stop'
         daemon = self.new(opts)
         DaemonSpawn.stop(daemon)
@@ -138,7 +141,7 @@ module DaemonSpawn
       when 'restart'
         daemon = self.new(opts)
         DaemonSpawn.stop(daemon)
-        DaemonSpawn.start(daemon, ARGV)
+        DaemonSpawn.start(daemon, args)
       when '-h', '--help', 'help'
         DaemonSpawn.usage
         exit

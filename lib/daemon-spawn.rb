@@ -26,7 +26,7 @@ module DaemonSpawn
     if daemon.alive? && daemon.singleton
       STDERR.puts "An instance of #{daemon.classname} is already " +
         "running (PID #{daemon.pid})"
-      exit 1
+      exit 0
     end
     
     fork do

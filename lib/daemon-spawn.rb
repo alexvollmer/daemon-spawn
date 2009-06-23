@@ -56,7 +56,6 @@ module DaemonSpawn
       end
     else
       puts "Pid file not found. Is the daemon started?"
-      exit
     end
   rescue Errno::ESRCH
     puts "Pid file found, but process was not running. The daemon may have died."

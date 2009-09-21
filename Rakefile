@@ -4,8 +4,8 @@ require 'rubygems'
 require 'hoe'
 require './lib/daemon-spawn.rb'
 
-Hoe.new('daemon-spawn', DaemonSpawn::VERSION) do |p|
-  p.developer('Alex Vollmer', 'alex@evri.com')
+Hoe.spec('daemon-spawn') do |p|
+  p.developer('Alex Vollmer', 'alex.vollmer@gmail.com')
 end
 
 # vim: syntax=Ruby

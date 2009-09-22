@@ -2,9 +2,18 @@
 
 require "socket"
 require "rubygems"
-gem "daemon-spawn", "=0.1.1"
 require "daemon-spawn"
 
+# An echo server using daemon-spawn. It starts up local TCP server
+# socket and repeats each line it receives on the connection. To fire
+# it up run:
+#   ./echo_server.rb start 12345
+# Then connect to it using telnet to test it:
+#   telnet localhost 12345
+#   > howdy!
+#   howdy!
+# to shut the daemon down, go back to the command-line and run:
+#  ./echo_server.rb stop
 class EchoServer < DaemonSpawn::Base
 
   attr_accessor :server_socket

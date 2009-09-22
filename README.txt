@@ -42,7 +42,7 @@ If you need command-line parameters, any arguments passed after one of
 the commands (start, stop, status or restart) will be passed to the
 +start+ method.
 
-The +spawn!+ method takes a hash of symbolized keys. At a minimum you
+The <tt>spawn!</tt> method takes a hash of symbolized keys. At a minimum you
 _must_ specify the <tt>:working_dir</tt> option. You can also override
 the default locations for the log and PID files.
 

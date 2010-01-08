@@ -19,7 +19,7 @@ module DaemonSpawn
     end
 
     if !File.writable?(File.dirname(daemon.pid_file))
-      STDERR.puts "Unable to write log file to #{daemon.pid_file}"
+      STDERR.puts "Unable to write PID file to #{daemon.pid_file}"
       exit 1
     end
 

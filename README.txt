@@ -46,7 +46,7 @@ The <tt>spawn!</tt> method takes a hash of symbolized keys. At a minimum you
 _must_ specify the <tt>:working_dir</tt> option. You can also override
 the default locations for the log and PID files.
 
-See the <tt>examples</tt> directory for working examples.
+See the <tt>test/servers</tt> directory for working examples.
 
 === RUNNING A DAEMON:
 

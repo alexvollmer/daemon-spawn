@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
-require "socket"
-require "rubygems"
+$:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
+
 require "daemon-spawn"
+require "socket"
 
 # An echo server using daemon-spawn. It starts up local TCP server
 # socket and repeats each line it receives on the connection. To fire
@@ -46,10 +47,8 @@ class EchoServer < DaemonSpawn::Base
   end
 end
 
-if $0 == __FILE__
-  EchoServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..'),
-                    :log_file => '/tmp/echo_server.log',
-                    :pid_file => '/tmp/echo_server.pid',
-                    :sync_log => true,
-                    :singleton => true)
-end
+EchoServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
+                  :log_file => '/tmp/echo_server.log',
+                  :pid_file => '/tmp/echo_server.pid',
+                  :sync_log => true,
+                  :singleton => true)

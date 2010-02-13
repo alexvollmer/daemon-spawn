@@ -9,16 +9,19 @@ class DaemonSpawnTest < Test::Unit::TestCase
     Dir.chdir(SERVERS) do
       `./echo_server.rb stop`
       assert_match(/EchoServer started./, `./echo_server.rb start 5150`)
+      sleep 1
       socket = TCPSocket.new('localhost', 5150)
       socket.setsockopt(Socket::SOL_SOCKET,
                         Socket::SO_RCVTIMEO,
                         [1, 0].pack("l_2"))
 
-      yield(socket) if block_given?
-
-      socket.close
-      assert_match(//, `./echo_server.rb stop`)
-      assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('localhost', 5150) }
+      begin
+        yield(socket) if block_given?
+      ensure
+        socket.close
+        assert_match(//, `./echo_server.rb stop`)
+        assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('localhost', 5150) }
+      end
     end
   end
 
@@ -45,6 +48,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
     while_running do |socket|
       assert_match(/An instance of EchoServer is already running/,
                    `./echo_server.rb start 5150 2>&1`)
+      assert_equal(0, $?.exitstatus)
     end
   end
 

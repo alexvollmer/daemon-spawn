@@ -47,7 +47,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
 
   def test_status_not_running
     Dir.chdir(SERVERS) do
-      assert_match(/EchoServer is NOT running/, `./echo_server.rb status`)
+      assert_match(/No PIDs found/, `./echo_server.rb status`)
     end
   end
 
@@ -61,7 +61,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
 
   def test_stop_after_stopped
     Dir.chdir(SERVERS) do
-      assert_match("Pid file not found. Is the daemon started?",
+      assert_match("No PID files found. Is the daemon started?",
                    `./echo_server.rb stop`)
     end
   end

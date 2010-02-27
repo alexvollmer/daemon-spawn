@@ -2,7 +2,7 @@
 
 $:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
 
-require "daemon-spawn"
+require "daemon_spawn"
 require "socket"
 
 # An echo server using daemon-spawn. It starts up local TCP server

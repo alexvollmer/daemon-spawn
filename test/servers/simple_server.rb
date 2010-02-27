@@ -2,7 +2,7 @@
 
 $:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
 
-require "daemon-spawn"
+require "daemon_spawn"
 
 class SimpleServer < DaemonSpawn::Base
 

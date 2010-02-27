@@ -2,6 +2,6 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-lib/daemon-spawn.rb
+lib/daemon_spawn.rb
 test/test_daemon-spawn.rb
 examples/echo_server.rb

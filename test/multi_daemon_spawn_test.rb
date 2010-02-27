@@ -101,4 +101,11 @@ class MultiDaemonSpawnTest < Test::Unit::TestCase
     end
   end
 
+  def test_start_after_started
+    while_running do
+      pids = current_pids
+      assert_match(/Daemons already started! PIDS: #{pids.join(', ')}/,
+                   simple_server("start"))
+    end
+  end
 end

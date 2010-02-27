@@ -146,8 +146,14 @@ module DaemonSpawn
     def self.spawn!(opts = {}, args = ARGV)
       case args.size > 0 && args.shift
       when 'start'
-        daemons = build(opts)
-        daemons.each { |d| DaemonSpawn.start(d, args) }
+        daemons = find(opts)
+        if daemons.empty?
+          daemons = build(opts)
+          daemons.map { |d| DaemonSpawn.start(d, args) }
+        else
+          puts "Daemons already started! PIDS: #{daemons.map {|d| d.pid}.join(', ')}"
+          exit 1
+        end
       when 'stop'
         daemons = find(opts)
         if daemons.empty?

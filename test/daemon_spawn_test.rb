@@ -18,6 +18,10 @@ class DaemonSpawnTest < Test::Unit::TestCase
     end
   end
 
+  def echo_server(*args)
+    `./echo_server.rb #{args.join(' ')}`
+  end
+
   def while_running
     Dir.chdir(SERVERS) do
       `./echo_server.rb stop`
@@ -94,4 +98,13 @@ class DaemonSpawnTest < Test::Unit::TestCase
       end
     end
   end
+
+  def test_start_after_started
+    while_running do
+      pid = echo_server("status").match(/PID (\d+)/)[1]
+      assert_match(/Daemons already started! PIDS: #{pid}/,
+                   echo_server("start"))
+    end
+  end
+
 end

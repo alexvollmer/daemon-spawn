@@ -46,6 +46,9 @@ The <tt>spawn!</tt> method takes a hash of symbolized keys. At a minimum you
 _must_ specify the <tt>:working_dir</tt> option. You can also override
 the default locations for the log and PID files.
 
+If you pass a <tt>:processes</tt> option to the <tt>spawn!</tt>,
+daemon spawn will start that number of processes.
+
 See the <tt>test/servers</tt> directory for working examples.
 
 === RUNNING A DAEMON:
@@ -67,6 +70,12 @@ method of an instance of your daemon class.
 == REQUIREMENTS:
 
 None!
+
+== CONTRIBUTIONS:
+
+Feel free to fork this project and send me pull requests with any
+changes that you have. Please note that I won't accept any patches
+with significant formatting changes or ones without tests.
 
 == INSTALL:
 

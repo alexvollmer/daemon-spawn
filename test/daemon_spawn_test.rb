@@ -56,10 +56,10 @@ class DaemonSpawnTest < Test::Unit::TestCase
   end
 
   def test_start_after_started
-    while_running do |socket|
-      assert_match(/An instance of EchoServer is already running/,
-                   `./echo_server.rb start 5150 2>&1`)
-      assert_equal(0, $?.exitstatus)
+    while_running do
+      pid = echo_server("status").match(/PID (\d+)/)[1]
+      assert_match(/Daemons already started! PIDS: #{pid}/,
+                   echo_server("start"))
     end
   end
 
@@ -96,14 +96,6 @@ class DaemonSpawnTest < Test::Unit::TestCase
         socket << "foobar\n"
         assert_equal "foobar\n", socket.readline
       end
-    end
-  end
-
-  def test_start_after_started
-    while_running do
-      pid = echo_server("status").match(/PID (\d+)/)[1]
-      assert_match(/Daemons already started! PIDS: #{pid}/,
-                   echo_server("start"))
     end
   end
 

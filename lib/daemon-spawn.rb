@@ -144,43 +144,53 @@ module DaemonSpawn
     # The first token will be removed and any remaining arguments
     # passed to the daemon's start method.
     def self.spawn!(opts = {}, args = ARGV)
-      case args.size > 0 && args.shift
-      when 'start'
-        daemons = find(opts)
-        if daemons.empty?
-          daemons = build(opts)
-          daemons.map { |d| DaemonSpawn.start(d, args) }
-        else
-          puts "Daemons already started! PIDS: #{daemons.map {|d| d.pid}.join(', ')}"
-          exit 1
-        end
-      when 'stop'
-        daemons = find(opts)
-        if daemons.empty?
-          puts "No PID files found. Is the daemon started?"
-          exit 1
-        else
-          daemons.each { |d| DaemonSpawn.stop(d) }
-        end
-      when 'status'
-        daemons = find(opts)
-        if daemons.empty?
-          puts 'No PIDs found'
-        else
-          daemons.each { |d| DaemonSpawn.status(d) }
-        end
-      when 'restart'
-        daemons = find(opts)
-        daemons.map do |daemon|
-          DaemonSpawn.stop(daemon)
-          DaemonSpawn.start(daemon, args)
-        end
+      case args.any? and command = args.shift
+      when 'start', 'stop', 'status', 'restart'
+        send(command, opts, args)
       when '-h', '--help', 'help'
         DaemonSpawn.usage
         exit
       else
         DaemonSpawn.usage "Invalid command"
         exit 1
+      end
+    end
+
+    def self.start(opts, args)
+      daemons = find(opts)
+      if daemons.empty?
+        daemons = build(opts)
+        daemons.map { |d| DaemonSpawn.start(d, args) }
+      else
+        puts "Daemons already started! PIDS: #{daemons.map {|d| d.pid}.join(', ')}"
+        exit 1
+      end
+    end
+
+    def self.stop(opts, args)
+      daemons = find(opts)
+      if daemons.empty?
+        puts "No PID files found. Is the daemon started?"
+        exit 1
+      else
+        daemons.each { |d| DaemonSpawn.stop(d) }
+      end
+    end
+
+    def self.status(opts, args)
+      daemons = find(opts)
+      if daemons.empty?
+        puts 'No PIDs found'
+      else
+        daemons.each { |d| DaemonSpawn.status(d) }
+      end
+    end
+
+    def self.restart(opts, args)
+      daemons = find(opts)
+      daemons.map do |daemon|
+        DaemonSpawn.stop(daemon)
+        DaemonSpawn.start(daemon, args)
       end
     end
   end

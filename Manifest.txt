@@ -3,5 +3,7 @@ Manifest.txt
 README.txt
 Rakefile
 lib/daemon_spawn.rb
-test/test_daemon-spawn.rb
-examples/echo_server.rb
+test/daemon_spawn_test.rb
+test/multi_daemon_spawn_test.rb
+test/servers/echo_server.rb
+test/servers/simple_server.rb

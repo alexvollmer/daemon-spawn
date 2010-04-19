@@ -3,7 +3,7 @@ require 'fileutils'
 # Large portions of this were liberally stolen from the
 # 'simple-daemon' project at http://simple-daemon.rubyforge.org/
 module DaemonSpawn
-  VERSION = '0.2.0'
+  VERSION = '0.3.0'
 
   def self.usage(msg=nil) #:nodoc:
     print "#{msg}, " if msg

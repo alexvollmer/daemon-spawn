@@ -15,7 +15,7 @@ begin
     gemspec.rubyforge_project = "daemon-spawn"
     gemspec.email = "alex.vollmer@gmail.com"
     gemspec.homepage = "http://github.com/alexvollmer/daemon-spawn"
-    gemspec.authors = ["Alex Vollmer"]
+    gemspec.authors = ["Alex Vollmer", "Seamus Abshere"]
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"

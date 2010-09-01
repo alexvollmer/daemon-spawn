@@ -7,7 +7,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
 
   # Try to make sure no pidfile (or process) is left over from another test.
   def setup
-    %w{ echo_server }.each do |server|
+    %w{ echo_server deaf_server stubborn_server }.each do |server|
       begin
         Process.kill 9, possible_pid(server)
       rescue Errno::ESRCH
@@ -168,4 +168,17 @@ class DaemonSpawnTest < Test::Unit::TestCase
     end
   end
 
+  def test_kill_9_following_timeout
+    Dir.chdir(SERVERS) do
+      `./stubborn_server.rb start`
+      sleep 1
+      pid = reported_pid 'stubborn_server'
+      assert alive?(pid)
+      Process.kill 'TERM', pid
+      sleep 1
+      assert alive?(pid)
+      `./stubborn_server.rb stop`
+      assert dead?(pid)
+    end
+  end
 end

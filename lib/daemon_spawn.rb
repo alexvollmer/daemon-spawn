@@ -11,6 +11,12 @@ module DaemonSpawn
     puts "Where <command> is one of start, stop, restart or status"
     puts "[options] are additional options passed to the underlying process"
   end
+  
+  def self.alive?(pid)
+    Process.kill 0, pid
+  rescue Errno::ESRCH
+    false
+  end
 
   def self.start(daemon, args) #:nodoc:
     if !File.writable?(File.dirname(daemon.log_file))
@@ -102,12 +108,8 @@ module DaemonSpawn
     end
 
     def alive? #:nodoc:
-      if File.file?(self.pid_file)
-        begin
-          Process.kill(0, self.pid)
-        rescue Errno::ESRCH, ::Exception
-          false
-        end
+      if File.file?(pid_file)
+        DaemonSpawn.alive? pid
       else
         false
       end

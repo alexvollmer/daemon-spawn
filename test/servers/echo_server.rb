@@ -4,6 +4,7 @@ $:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
 
 require "daemon_spawn"
 require "socket"
+require "tmpdir"
 
 # An echo server using daemon-spawn. It starts up local TCP server
 # socket and repeats each line it receives on the connection. To fire
@@ -48,7 +49,7 @@ class EchoServer < DaemonSpawn::Base
 end
 
 EchoServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
-                  :log_file => '/tmp/echo_server.log',
-                  :pid_file => '/tmp/echo_server.pid',
+                  :log_file => File.join(Dir.tmpdir, 'echo_server.log'),
+                  :pid_file => File.join(Dir.tmpdir, 'echo_server.pid'),
                   :sync_log => true,
                   :singleton => true)

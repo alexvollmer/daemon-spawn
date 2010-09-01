@@ -1,9 +1,28 @@
 require "socket"
 require "test/unit"
+require "tmpdir"
 
 class DaemonSpawnTest < Test::Unit::TestCase
 
   SERVERS = File.join(File.dirname(__FILE__), "servers")
+
+  def pidfile
+    File.join Dir.tmpdir, 'echo_server.pid'
+  end
+
+  # Try to make sure no pidfile (or process) is left over from another test.
+  def setup
+    begin
+      Process.kill 9, `ps x | grep ruby | grep echo_server.rb | awk '{ print $1 }'`.to_i
+    rescue Errno::ESRCH
+      # good, no process to kill
+    end
+    begin
+      File.unlink pidfile
+    rescue Errno::ENOENT
+      # good, no pidfile to clear
+    end
+  end
 
   def with_socket
     socket = TCPSocket.new('127.0.0.1', 5150)

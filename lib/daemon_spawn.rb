@@ -187,7 +187,7 @@ module DaemonSpawn
     end
 
     def self.restart(opts, args)
-      daemons = find(opts)
+      daemons = build(opts)
       daemons.map do |daemon|
         DaemonSpawn.stop(daemon)
         DaemonSpawn.start(daemon, args)

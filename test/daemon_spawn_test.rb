@@ -1,26 +1,23 @@
+require File.join(File.dirname(__FILE__), "helper")
 require "socket"
-require "test/unit"
-require "tmpdir"
 
 class DaemonSpawnTest < Test::Unit::TestCase
 
   SERVERS = File.join(File.dirname(__FILE__), "servers")
 
-  def pidfile
-    File.join Dir.tmpdir, 'echo_server.pid'
-  end
-
   # Try to make sure no pidfile (or process) is left over from another test.
   def setup
-    begin
-      Process.kill 9, `ps x | grep ruby | grep echo_server.rb | awk '{ print $1 }'`.to_i
-    rescue Errno::ESRCH
-      # good, no process to kill
-    end
-    begin
-      File.unlink pidfile
-    rescue Errno::ENOENT
-      # good, no pidfile to clear
+    %w{ echo_server }.each do |server|
+      begin
+        Process.kill 9, possible_pid(server)
+      rescue Errno::ESRCH
+        # good, no process to kill
+      end
+      begin
+        File.unlink pid_file(server)
+      rescue Errno::ENOENT
+        # good, no pidfile to clear
+      end
     end
   end
 
@@ -61,13 +58,11 @@ class DaemonSpawnTest < Test::Unit::TestCase
       sleep 1
       `./echo_server.rb start 5150`
       sleep 1
-      leftover_pid = IO.read(pidfile).to_i
+      leftover_pid = IO.read(pid_file('echo_server')).to_i
       Process.kill 9, leftover_pid
       sleep 1
-      assert_raises(Errno::ESRCH) do
-        Process.kill 0, leftover_pid
-      end
-      assert File.exists?(pidfile)
+      assert dead?(leftover_pid)
+      assert File.exists?(pid_file('echo_server'))
       yield leftover_pid
     end
   end
@@ -139,23 +134,21 @@ class DaemonSpawnTest < Test::Unit::TestCase
     after_daemon_dies_leaving_pid_file do |leftover_pid|
       assert_match /EchoServer started/, `./echo_server.rb start 5150`
       sleep 1
-      new_pid = IO.read(pidfile).to_i
+      new_pid = IO.read(pid_file('echo_server')).to_i
       assert new_pid != leftover_pid
-      assert_nothing_raised do
-        Process.kill 0, new_pid
-      end
+      assert alive?(new_pid)
     end
   end
-  
+
   def test_restart_after_daemon_dies_leaving_pid_file
     after_daemon_dies_leaving_pid_file do |leftover_pid|
       assert_match /EchoServer started/, `./echo_server.rb restart 5150`
       sleep 1
-      new_pid = IO.read(pidfile).to_i
+      new_pid = reported_pid 'echo_server'
       assert new_pid != leftover_pid
-      assert_nothing_raised do
-        Process.kill 0, new_pid
-      end
+      assert alive?(new_pid)
+    end
+  end
     end
   end
 

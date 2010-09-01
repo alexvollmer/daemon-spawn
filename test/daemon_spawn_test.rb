@@ -6,7 +6,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
   SERVERS = File.join(File.dirname(__FILE__), "servers")
 
   def with_socket
-    socket = TCPSocket.new('localhost', 5150)
+    socket = TCPSocket.new('127.0.0.1', 5150)
     socket.setsockopt(Socket::SOL_SOCKET,
                       Socket::SO_RCVTIMEO,
                       [1, 0].pack("l_2"))
@@ -31,7 +31,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
         with_socket
       ensure
         assert_match(//, `./echo_server.rb stop`)
-        assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('localhost', 5150) }
+        assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('127.0.0.1', 5150) }
       end
     end
   end

@@ -149,6 +149,22 @@ class DaemonSpawnTest < Test::Unit::TestCase
       assert alive?(new_pid)
     end
   end
+  
+  def test_stop_using_custom_signal
+    Dir.chdir(SERVERS) do
+      `./deaf_server.rb start`
+      sleep 1
+      pid = reported_pid 'deaf_server'
+      assert alive?(pid)
+      Process.kill 'TERM', pid
+      sleep 1
+      assert alive?(pid)
+      Process.kill 'INT', pid
+      sleep 1
+      assert alive?(pid)
+      `./deaf_server.rb stop`
+      sleep 1
+      assert dead?(pid)
     end
   end
 

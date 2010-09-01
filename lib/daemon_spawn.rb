@@ -49,7 +49,7 @@ module DaemonSpawn
   def self.stop(daemon) #:nodoc:
     if pid = daemon.pid
       FileUtils.rm(daemon.pid_file)
-      Process.kill("TERM", pid)
+      Process.kill(daemon.signal, pid)
       begin
         Process.wait(pid)
       rescue Errno::ECHILD
@@ -66,7 +66,7 @@ module DaemonSpawn
   end
 
   class Base
-    attr_accessor :log_file, :pid_file, :sync_log, :working_dir, :app_name, :singleton, :index
+    attr_accessor :log_file, :pid_file, :sync_log, :working_dir, :app_name, :singleton, :index, :signal
 
     def initialize(opts = {})
       raise 'You must specify a :working_dir' unless opts[:working_dir]
@@ -74,6 +74,7 @@ module DaemonSpawn
       self.app_name = opts[:application] || classname
       self.pid_file = opts[:pid_file] || File.join(working_dir, 'tmp', 'pids', app_name + extension)
       self.log_file = opts[:log_file] || File.join(working_dir, 'logs', app_name + '.log')
+      self.signal = opts[:signal] || 'TERM'
       self.index = opts[:index] || 0
       if self.index > 0
         self.pid_file += ".#{self.index}"

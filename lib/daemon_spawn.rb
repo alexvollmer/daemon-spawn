@@ -157,15 +157,14 @@ module DaemonSpawn
     end
 
     def self.start(opts, args)
-      daemons = find(opts)
-      if daemons.empty?
-        daemons = build(opts)
-        daemons.map { |d| DaemonSpawn.start(d, args) }
-      else
-        puts "Daemons already started! PIDS: #{daemons.map {|d| d.pid}.join(', ')}"
+      living_daemons = find(opts).select { |d| d.alive? }
+      if living_daemons.any?
+        puts "Daemons already started! PIDS: #{living_daemons.map {|d| d.pid}.join(', ')}"
         exit 1
+      else
+        build(opts).map { |d| DaemonSpawn.start(d, args) }
       end
-    end
+    end      
 
     def self.stop(opts, args)
       daemons = find(opts)

@@ -54,6 +54,23 @@ class DaemonSpawnTest < Test::Unit::TestCase
       end
     end
   end
+  
+  def after_daemon_dies_leaving_pid_file
+    Dir.chdir(SERVERS) do
+      `./echo_server.rb stop`
+      sleep 1
+      `./echo_server.rb start 5150`
+      sleep 1
+      leftover_pid = IO.read(pidfile).to_i
+      Process.kill 9, leftover_pid
+      sleep 1
+      assert_raises(Errno::ESRCH) do
+        Process.kill 0, leftover_pid
+      end
+      assert File.exists?(pidfile)
+      yield leftover_pid
+    end
+  end
 
   def test_daemon_running
     while_running do |socket|
@@ -114,6 +131,30 @@ class DaemonSpawnTest < Test::Unit::TestCase
       with_socket do |socket|
         socket << "foobar\n"
         assert_equal "foobar\n", socket.readline
+      end
+    end
+  end
+  
+  def test_start_after_daemon_dies_leaving_pid_file
+    after_daemon_dies_leaving_pid_file do |leftover_pid|
+      assert_match /EchoServer started/, `./echo_server.rb start 5150`
+      sleep 1
+      new_pid = IO.read(pidfile).to_i
+      assert new_pid != leftover_pid
+      assert_nothing_raised do
+        Process.kill 0, new_pid
+      end
+    end
+  end
+  
+  def test_restart_after_daemon_dies_leaving_pid_file
+    after_daemon_dies_leaving_pid_file do |leftover_pid|
+      assert_match /EchoServer started/, `./echo_server.rb restart 5150`
+      sleep 1
+      new_pid = IO.read(pidfile).to_i
+      assert new_pid != leftover_pid
+      assert_nothing_raised do
+        Process.kill 0, new_pid
       end
     end
   end

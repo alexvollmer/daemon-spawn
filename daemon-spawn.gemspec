@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{daemon-spawn}
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Vollmer", "Seamus Abshere", "Emmanual Gomez", "Seth Falcon", "Woody Peterson"]
-  s.date = %q{2010-09-05}
+  s.date = %q{2011-03-03}
   s.description = %q{With daemon-spawn you can start, stop and restart processes that run
     in the background. Processed are tracked by a simple PID file written
     to disk.}
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{daemon-spawn}
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Daemon launching and management made dead simple}
   s.test_files = [
     "test/daemon_spawn_test.rb",
@@ -57,7 +57,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
     else
     end
   else

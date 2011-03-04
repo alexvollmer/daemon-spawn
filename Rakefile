@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require './lib/daemon_spawn.rb'
+require 'rake/testtask'
 
 begin
   require 'jeweler'
@@ -19,6 +20,12 @@ begin
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
+end
+
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/*test.rb']
+  t.verbose = true
 end
 
 # vim: syntax=Ruby

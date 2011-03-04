@@ -1,7 +1,6 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require 'jeweler'
 require './lib/daemon_spawn.rb'
 
 begin
@@ -17,6 +16,7 @@ begin
     gemspec.homepage = "http://github.com/alexvollmer/daemon-spawn"
     gemspec.authors = ["Alex Vollmer", "Seamus Abshere", "Emmanual Gomez", "Seth Falcon", "Woody Peterson"]
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
 end

@@ -174,7 +174,7 @@ module DaemonSpawn
     def self.start(opts, args)
       living_daemons = find(opts).select { |d| d.alive? }
       if living_daemons.any?
-        puts "Daemons already started! PIDS: #{living_daemons.map {|d| d.pid}.join(', ')}"
+        puts "#{self.app_name} already started! PIDS: #{living_daemons.map {|d| d.pid}.join(', ')}"
         exit 1
       else
         build(opts).map { |d| DaemonSpawn.start(d, args) }

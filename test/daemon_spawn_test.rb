@@ -38,13 +38,13 @@ class DaemonSpawnTest < Test::Unit::TestCase
     `./echo_server.rb #{args.join(' ')}`
   end
 
-  def while_running
+  def while_running(&block)
     Dir.chdir(SERVERS) do
       `./echo_server.rb stop`
       assert_match(/EchoServer started./, `./echo_server.rb start 5150`)
       sleep 1
       begin
-        with_socket
+        with_socket &block
       ensure
         assert_match(//, `./echo_server.rb stop`)
         assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('127.0.0.1', 5150) }

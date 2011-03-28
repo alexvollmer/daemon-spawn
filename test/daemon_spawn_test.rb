@@ -51,7 +51,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def after_daemon_dies_leaving_pid_file
     Dir.chdir(SERVERS) do
       `./echo_server.rb stop`
@@ -129,7 +129,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_start_after_daemon_dies_leaving_pid_file
     after_daemon_dies_leaving_pid_file do |leftover_pid|
       assert_match /EchoServer started/, `./echo_server.rb start 5150`
@@ -149,7 +149,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
       assert alive?(new_pid)
     end
   end
-  
+
   def test_stop_using_custom_signal
     Dir.chdir(SERVERS) do
       `./deaf_server.rb start`

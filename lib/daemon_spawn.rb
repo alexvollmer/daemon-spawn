@@ -11,7 +11,7 @@ module DaemonSpawn
     puts "Where <command> is one of start, stop, restart or status"
     puts "[options] are additional options passed to the underlying process"
   end
-  
+
   def self.alive?(pid)
     Process.kill 0, pid
   rescue Errno::ESRCH
@@ -179,7 +179,7 @@ module DaemonSpawn
       else
         build(opts).map { |d| DaemonSpawn.start(d, args) }
       end
-    end      
+    end
 
     def self.stop(opts, args)
       daemons = find(opts)

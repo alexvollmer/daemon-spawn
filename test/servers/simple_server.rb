@@ -27,8 +27,11 @@ class SimpleServer < DaemonSpawn::Base
 
 end
 
-SimpleServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
-                    :log_file => '/tmp/simple_server.log',
-                    :pid_file => '/tmp/simple_server.pid',
-                    :sync_log => true,
-                    :processes => 2)
+SimpleServer.spawn!(
+  :working_dir => File.join(File.dirname(__FILE__), '..', '..'),
+  :log_file => '/tmp/simple_server.log',
+  :pid_file => '/tmp/simple_server.pid',
+  :sync_log => true,
+  :processes => 2,
+  :verbose => true
+)

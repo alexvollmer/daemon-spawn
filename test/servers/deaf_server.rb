@@ -20,9 +20,11 @@ class DeafServer < DaemonSpawn::Base
   end
 end
 
-DeafServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
-                  :log_file => File.join(Dir.tmpdir, 'deaf_server.log'),
-                  :pid_file => File.join(Dir.tmpdir, 'deaf_server.pid'),
-                  :sync_log => true,
-                  :singleton => true,
-                  :signal => 'SIGWINCH')
+DeafServer.spawn!(
+  :working_dir => File.join(File.dirname(__FILE__), '..', '..'),
+  :log_file => File.join(Dir.tmpdir, 'deaf_server.log'),
+  :pid_file => File.join(Dir.tmpdir, 'deaf_server.pid'),
+  :sync_log => true,
+  :singleton => true,
+  :signal => 'SIGWINCH'
+)

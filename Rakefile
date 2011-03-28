@@ -1,7 +1,10 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require './lib/daemon_spawn.rb'
+
+$:.unshift File.join(File.dirname(__FILE__), "..", "lib")
+require 'daemon_spawn'
+
 require 'rake/testtask'
 
 begin

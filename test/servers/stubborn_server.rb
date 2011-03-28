@@ -19,9 +19,11 @@ class StubbornServer < DaemonSpawn::Base
   end
 end
 
-StubbornServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
-                      :log_file => File.join(Dir.tmpdir, 'stubborn_server.log'),
-                      :pid_file => File.join(Dir.tmpdir, 'stubborn_server.pid'),
-                      :sync_log => true,
-                      :singleton => true,
-                      :timeout => 2)
+StubbornServer.spawn!(
+  :working_dir => File.join(File.dirname(__FILE__), '..', '..'),
+  :log_file => File.join(Dir.tmpdir, 'stubborn_server.log'),
+  :pid_file => File.join(Dir.tmpdir, 'stubborn_server.pid'),
+  :sync_log => true,
+  :singleton => true,
+  :timeout => 2
+)

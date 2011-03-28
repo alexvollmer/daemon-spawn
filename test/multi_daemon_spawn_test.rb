@@ -1,5 +1,7 @@
-require File.join(File.dirname(__FILE__), "helper")
-require "tempfile"
+$:.unshift File.join(File.dirname(__FILE__), "..", "test")
+require 'helper'
+
+require 'tempfile'
 
 class MultiDaemonSpawnTest < Test::Unit::TestCase
 
@@ -104,8 +106,7 @@ class MultiDaemonSpawnTest < Test::Unit::TestCase
   def test_start_after_started
     while_running do
       pids = current_pids
-      assert_match(/Daemons already started! PIDS: #{pids.join(', ')}/,
-                   simple_server("start"))
+      assert_match("Daemon(s) already started! PIDS: #{pids.join(', ')}\n", simple_server("start"))
     end
   end
 end

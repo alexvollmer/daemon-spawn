@@ -13,9 +13,11 @@ class TapsServer < DaemonSpawn::Base
   def stop
   end
 end
-TapsServer.spawn!(:working_dir => File.join(File.dirname(__FILE__), '..', '..'),
-                  :log_file => File.join(Dir.tmpdir, 'taps_server.log'),
-                  :pid_file => File.join(Dir.tmpdir, 'taps_server.pid'),
-                  :sync_log => true,
-                  :singleton => true,
-                  :signal => 'INT') # Sinatra ignores TERM
+TapsServer.spawn!(
+  :working_dir => File.join(File.dirname(__FILE__), '..', '..'),
+  :log_file => File.join(Dir.tmpdir, 'taps_server.log'),
+  :pid_file => File.join(Dir.tmpdir, 'taps_server.pid'),
+  :sync_log => true,
+  :singleton => true,
+  :signal => 'INT'
+) # Sinatra ignores TERM

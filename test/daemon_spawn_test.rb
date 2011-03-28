@@ -1,5 +1,7 @@
-require File.join(File.dirname(__FILE__), "helper")
-require "socket"
+$:.unshift File.join(File.dirname(__FILE__), "..", "test")
+require 'helper'
+
+require 'socket'
 
 class DaemonSpawnTest < Test::Unit::TestCase
 
@@ -47,7 +49,10 @@ class DaemonSpawnTest < Test::Unit::TestCase
         with_socket
       ensure
         assert_match(//, `./echo_server.rb stop`)
+        
+        sleep 1 # Sleep to allow the connection to terminate
         assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('127.0.0.1', 5150) }
+        
       end
     end
   end

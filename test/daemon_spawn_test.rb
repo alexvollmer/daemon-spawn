@@ -7,7 +7,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
 
   # Try to make sure no pidfile (or process) is left over from another test.
   def setup
-    %w{ echo_server deaf_server stubborn_server }.each do |server|
+    %w{ echo_server deaf_server stubborn_server simple_server }.each do |server|
       begin
         Process.kill 9, possible_pid(server)
       rescue Errno::ESRCH
@@ -179,6 +179,32 @@ class DaemonSpawnTest < Test::Unit::TestCase
       assert alive?(pid)
       `./stubborn_server.rb stop`
       assert dead?(pid)
+    end
+  end
+
+  def test_umask_unchanged
+    Dir.chdir(SERVERS) do
+      old_umask = File.umask 0124
+      log_file = File.join(Dir.tmpdir, 'should_not_be_world_writable')
+      begin
+        `./simple_server.rb stop`
+        FileUtils.rm_f log_file
+        `./simple_server.rb start #{log_file}`
+        sleep 1
+        assert_equal 0100642, File.stat(log_file).mode
+      ensure
+        `./simple_server.rb stop`
+        FileUtils.rm_f log_file
+        File.umask old_umask
+      end
+    end
+  end
+
+  def test_log_file_is_world_writable
+    log_file = File.join(Dir.tmpdir, 'echo_server.log')
+    FileUtils.rm_f log_file
+    while_running do
+      assert_equal 0100666, File.stat(log_file).mode
     end
   end
 end

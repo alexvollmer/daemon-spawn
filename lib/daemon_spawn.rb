@@ -40,8 +40,9 @@ module DaemonSpawn
       exit if fork
       open(daemon.pid_file, 'w') { |f| f << Process.pid }
       Dir.chdir daemon.working_dir
-      File.umask 0000
+      old_umask = File.umask 0000
       log = File.new(daemon.log_file, "a")
+      File.umask old_umask
       log.sync = daemon.sync_log
       STDIN.reopen "/dev/null"
       STDOUT.reopen log

@@ -1,3 +1,7 @@
+=== 0.4.2 / 2011-04-01
+
+* Merged patches from Tilo Prütz
+
 === 0.4.1 / 2011-03-03
 
 * Merged patch from oruen to fix https://github.com/alexvollmer/daemon-spawn/issues/5

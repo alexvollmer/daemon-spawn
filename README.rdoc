@@ -2,7 +2,7 @@
 
 * http://github.com/alexvollmer/daemon-spawn
 
-== DESCRIPTION:
+== DESCRIPTION
 
 Daemon launching and management made dead simple.
 
@@ -14,9 +14,9 @@ In addition, you can choose to either execute ruby in your daemonized
 process or 'exec' another process altogether (handy for wrapping other
 services).
 
-== SYNOPSIS:
+== SYNOPSIS
 
-=== WRITING A DAEMON:
+=== WRITING A DAEMON
 
 To create a new spawner, write a class that extends <tt>DaemonSpawn::Base</tt>
 and provides +start+ and +stop+ methods. For example:
@@ -51,7 +51,7 @@ daemon spawn will start that number of processes.
 
 See the <tt>test/servers</tt> directory for working examples.
 
-=== RUNNING A DAEMON:
+=== RUNNING A DAEMON
 
 Let's say that you have the example script listed above in
 <tt>bin/my_server</tt>. Here are the commands for starting, querying
@@ -67,21 +67,21 @@ Note that if any additional arguments are passed to either
 method of an instance of your daemon class.
 
 
-== REQUIREMENTS:
+== REQUIREMENTS
 
 None!
 
-== CONTRIBUTIONS:
+== CONTRIBUTIONS
 
 Feel free to fork this project and send me pull requests with any
 changes that you have. Please note that I won't accept any patches
 with significant formatting changes or ones without tests.
 
-== INSTALL:
+== INSTALL
 
 * sudo gem install daemon-spawn
 
-== LICENSE:
+== LICENSE
 
 (The MIT License)
 

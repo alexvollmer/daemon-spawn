@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "helper")
+require 'test_helper'
 require "socket"
 
 class DaemonSpawnTest < Test::Unit::TestCase
@@ -47,6 +47,7 @@ class DaemonSpawnTest < Test::Unit::TestCase
         with_socket &block
       ensure
         assert_match(//, `./echo_server.rb stop`)
+        sleep 0.1
         assert_raises(Errno::ECONNREFUSED) { TCPSocket.new('127.0.0.1', 5150) }
       end
     end

@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "helper")
+require 'test_helper'
 require "tempfile"
 
 class MultiDaemonSpawnTest < Test::Unit::TestCase

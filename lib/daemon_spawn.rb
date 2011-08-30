@@ -205,6 +205,7 @@ module DaemonSpawn
       daemons = build(opts)
       daemons.map do |daemon|
         DaemonSpawn.stop(daemon)
+        sleep 0.1
         DaemonSpawn.start(daemon, args)
       end
     end

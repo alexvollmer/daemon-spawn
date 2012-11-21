@@ -1,5 +1,6 @@
 require 'test_helper'
 require "socket"
+require 'fileutils'
 
 class DaemonSpawnTest < Test::Unit::TestCase
 
